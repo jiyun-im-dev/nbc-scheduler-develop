@@ -7,6 +7,8 @@ import com.jiyun.nbcschedulerdevelop.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.NoSuchElementException;
+
 @Service
 public class UserService {
 
@@ -18,8 +20,12 @@ public class UserService {
     }
 
     public UserResponseDto saveUser(UserCreateDto createDto) {
-        User saved = userRepository.save(new User(createDto));
-        return new UserResponseDto(saved);
+        User savedUser = userRepository.save(new User(createDto));
+        return new UserResponseDto(savedUser);
     }
 
+    public UserResponseDto findUserByUsername(String username) {
+        User foundUser = userRepository.findByUsername(username).orElseThrow(NoSuchElementException::new);
+        return new UserResponseDto(foundUser);
+    }
 }
