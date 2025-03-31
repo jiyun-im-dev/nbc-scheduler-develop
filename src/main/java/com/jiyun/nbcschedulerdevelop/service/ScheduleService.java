@@ -36,4 +36,9 @@ public class ScheduleService {
         Schedule foundSchedule = scheduleRepository.findById(id).orElseThrow(NoSuchElementException::new);
         foundSchedule.update(updateDto);
     }
+
+    public void deleteSchedule(Long id) {
+        scheduleRepository.deleteById(id);
+    }
+
 }
