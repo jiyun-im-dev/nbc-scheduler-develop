@@ -7,6 +7,8 @@ import com.jiyun.nbcschedulerdevelop.repository.ScheduleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.NoSuchElementException;
+
 @Service
 public class ScheduleService {
 
@@ -20,6 +22,11 @@ public class ScheduleService {
     public ScheduleResponseDto saveSchedule(ScheduleCreateDto createDto) {
         Schedule saved = scheduleRepository.save(new Schedule(createDto));
         return new ScheduleResponseDto(saved);
+    }
+
+    public ScheduleResponseDto findScheduleById(Long id) {
+        Schedule found = scheduleRepository.findById(id).orElseThrow(NoSuchElementException::new);
+        return new ScheduleResponseDto(found);
     }
 
 }
