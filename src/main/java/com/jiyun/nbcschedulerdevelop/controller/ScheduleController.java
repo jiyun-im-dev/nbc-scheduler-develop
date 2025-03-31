@@ -2,6 +2,7 @@ package com.jiyun.nbcschedulerdevelop.controller;
 
 import com.jiyun.nbcschedulerdevelop.dto.ScheduleCreateDto;
 import com.jiyun.nbcschedulerdevelop.dto.ScheduleResponseDto;
+import com.jiyun.nbcschedulerdevelop.dto.ScheduleUpdateDto;
 import com.jiyun.nbcschedulerdevelop.service.ScheduleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -29,6 +30,15 @@ public class ScheduleController {
     public ResponseEntity<ScheduleResponseDto> findScheduleById(@PathVariable Long id) {
         ScheduleResponseDto responseDto = scheduleService.findScheduleById(id);
         return new ResponseEntity<>(responseDto, HttpStatus.OK);
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<Void> updateSchedule(
+            @PathVariable Long id,
+            @RequestBody ScheduleUpdateDto updateDto
+    ) {
+        scheduleService.updateSchedule(id, updateDto);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 }

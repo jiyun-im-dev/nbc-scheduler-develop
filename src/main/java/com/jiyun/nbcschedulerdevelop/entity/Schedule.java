@@ -1,6 +1,7 @@
 package com.jiyun.nbcschedulerdevelop.entity;
 
 import com.jiyun.nbcschedulerdevelop.dto.ScheduleCreateDto;
+import com.jiyun.nbcschedulerdevelop.dto.ScheduleUpdateDto;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -38,6 +39,11 @@ public class Schedule {
         this.title = createDto.getTitle();
         this.content = createDto.getContent();
         this.user = createDto.getUser();
+    }
+
+    public void update(ScheduleUpdateDto updateDto) {
+        this.title = updateDto.getTitle();
+        this.content = updateDto.getContent();
     }
 
 }
