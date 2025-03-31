@@ -35,3 +35,6 @@ out/
 
 ### VS Code ###
 .vscode/
+
+# JPA 접속 정보에는 민감 정보가 들어 있으므로 트래킹하지 않는다.
+src/main/resources/META-INF/persistence.xml
