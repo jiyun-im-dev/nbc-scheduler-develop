@@ -4,13 +4,9 @@ import com.jiyun.nbcschedulerdevelop.dto.ScheduleCreateDto;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.Generated;
 import org.hibernate.annotations.GenerationTime;
-import org.hibernate.generator.EventType;
-import org.hibernate.generator.Generator;
 
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 @Entity
