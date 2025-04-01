@@ -3,6 +3,7 @@ package com.jiyun.nbcschedulerdevelop.entity;
 import com.jiyun.nbcschedulerdevelop.dto.UserCreateDto;
 import com.jiyun.nbcschedulerdevelop.dto.UserUpdateDto;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -19,6 +20,7 @@ public class User {
 
     private String name;
 
+    @Email
     private String email;
 
     private String password;

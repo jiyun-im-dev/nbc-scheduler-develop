@@ -1,11 +1,11 @@
 package com.jiyun.nbcschedulerdevelop.controller;
 
-import com.jiyun.nbcschedulerdevelop.dto.UserCreateDto;
-import com.jiyun.nbcschedulerdevelop.dto.UserResponseDto;
-import com.jiyun.nbcschedulerdevelop.dto.UserUpdateDto;
+import com.jiyun.nbcschedulerdevelop.dto.*;
 import com.jiyun.nbcschedulerdevelop.service.UserService;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -46,6 +46,21 @@ public class UserController {
     public ResponseEntity<Void> deleteUser(@PathVariable String username) {
         userService.deleteUser(username);
         return new ResponseEntity<>(HttpStatus.SEE_OTHER);
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<Void> login(
+            @Valid @RequestBody LoginRequestDto requestDto,
+            HttpServletResponse response
+    ) {
+        // 로그인 유저 조회
+        LoginResponseDto responseDto = userService.login(requestDto);
+
+        Cookie cookie = new Cookie("username", String.valueOf(responseDto.getUsername()));
+
+        response.addCookie(cookie);
+
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 }

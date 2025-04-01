@@ -1,15 +1,17 @@
 package com.jiyun.nbcschedulerdevelop.service;
 
-import com.jiyun.nbcschedulerdevelop.dto.UserCreateDto;
-import com.jiyun.nbcschedulerdevelop.dto.UserResponseDto;
-import com.jiyun.nbcschedulerdevelop.dto.UserUpdateDto;
+import com.jiyun.nbcschedulerdevelop.dto.*;
 import com.jiyun.nbcschedulerdevelop.entity.User;
+import com.jiyun.nbcschedulerdevelop.exception.LoginException;
 import com.jiyun.nbcschedulerdevelop.repository.UserRepository;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -42,4 +44,9 @@ public class UserService {
         userRepository.deleteByUsername(username);
     }
 
+    public LoginResponseDto login(@Valid LoginRequestDto requestDto) {
+        User user = userRepository.findByUsernameAndPassword(requestDto.getUsername(), requestDto.getPassword())
+                .orElseThrow(LoginException::new);
+        return new LoginResponseDto(user.getUsername());
+    }
 }
