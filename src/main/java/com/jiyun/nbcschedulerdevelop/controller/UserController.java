@@ -5,6 +5,7 @@ import com.jiyun.nbcschedulerdevelop.dto.UserResponseDto;
 import com.jiyun.nbcschedulerdevelop.dto.UserUpdateDto;
 import com.jiyun.nbcschedulerdevelop.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -39,6 +40,12 @@ public class UserController {
     ) {
         userService.updateUser(username, updateDto);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @DeleteMapping("/users/{username}")
+    public ResponseEntity<Void> deleteUser(@PathVariable String username) {
+        userService.deleteUser(username);
+        return new ResponseEntity<>(HttpStatus.SEE_OTHER);
     }
 
 }

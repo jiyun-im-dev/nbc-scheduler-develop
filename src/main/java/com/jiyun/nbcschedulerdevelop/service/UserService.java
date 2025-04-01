@@ -37,4 +37,9 @@ public class UserService {
         foundUser.update(updateDto);
     }
 
+    @Transactional
+    public void deleteUser(String username) throws NoSuchElementException {
+        userRepository.deleteByUsername(username);
+    }
+
 }
