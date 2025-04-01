@@ -2,10 +2,12 @@ package com.jiyun.nbcschedulerdevelop.service;
 
 import com.jiyun.nbcschedulerdevelop.dto.UserCreateDto;
 import com.jiyun.nbcschedulerdevelop.dto.UserResponseDto;
+import com.jiyun.nbcschedulerdevelop.dto.UserUpdateDto;
 import com.jiyun.nbcschedulerdevelop.entity.User;
 import com.jiyun.nbcschedulerdevelop.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.NoSuchElementException;
 
@@ -28,4 +30,11 @@ public class UserService {
         User foundUser = userRepository.findByUsername(username).orElseThrow(NoSuchElementException::new);
         return new UserResponseDto(foundUser);
     }
+
+    @Transactional
+    public void updateUser(String username, UserUpdateDto updateDto) {
+        User foundUser = userRepository.findByUsername(username).orElseThrow(NoSuchElementException::new);
+        foundUser.update(updateDto);
+    }
+
 }
