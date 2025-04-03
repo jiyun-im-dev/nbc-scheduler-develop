@@ -1,5 +1,6 @@
 package com.jiyun.nbcschedulerdevelop.service;
 
+import com.jiyun.nbcschedulerdevelop.config.PasswordEncoder;
 import com.jiyun.nbcschedulerdevelop.dto.*;
 import com.jiyun.nbcschedulerdevelop.entity.User;
 import com.jiyun.nbcschedulerdevelop.exception.LoginException;
@@ -15,15 +16,25 @@ import java.util.NoSuchElementException;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public UserResponseDto saveUser(UserCreateDto createDto) {
         User savedUser = userRepository.save(new User(createDto));
         return new UserResponseDto(savedUser);
+    }
+
+    // 암호화된 비밀번호로 회원 가입
+    public UserResponseDto register(UserCreateDto createDto) {
+        User user = new User(createDto);
+        user.encodePassword(passwordEncoder);
+        userRepository.save(user);
+        return new UserResponseDto(user);
     }
 
     public UserResponseDto findUserByUsername(String username) {
@@ -43,9 +54,16 @@ public class UserService {
     }
 
     public LoginResponseDto login(@Valid LoginRequestDto requestDto) {
-        User user = userRepository.findByUsernameAndPassword(requestDto.getUsername(), requestDto.getPassword())
-                .orElseThrow(LoginException::new);
-        return new LoginResponseDto(user.getUsername());
+        // 사용자 존재하는지 검사
+        User user = userRepository.findByUsername(requestDto.getUsername())
+                .orElseThrow(() -> new LoginException("사용자가 존재하지 않습니다."));
+
+        // 사용자가 입력한 비밀번호(plain text)가 DB 에 저장된 암호화된 비밀번호와 일치하는지 검사
+        if (passwordEncoder.matches(requestDto.getPassword(), user.getPassword())) {
+            return new LoginResponseDto(user.getUsername());
+        } else {
+            throw new LoginException("비밀번호가 일치하지 않습니다.");
+        }
     }
 
 }

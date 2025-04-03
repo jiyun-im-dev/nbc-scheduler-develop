@@ -22,7 +22,7 @@ public class UserController {
 
     @PostMapping("/signup")
     public ResponseEntity<UserResponseDto> saveUser(@RequestBody UserCreateDto createDto) {
-        UserResponseDto responseDto = userService.saveUser(createDto);
+        UserResponseDto responseDto = userService.register(createDto); // 암호화된 비밀번호로 회원 가입
         return new ResponseEntity<>(responseDto, HttpStatus.CREATED);
     }
 
