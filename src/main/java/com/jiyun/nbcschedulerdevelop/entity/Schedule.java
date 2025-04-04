@@ -23,9 +23,11 @@ public class Schedule {
 
     private String content;
 
+    // 연관 관계의 주인은 Schedule
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "username")
-    private User user; // FK
+    @JoinColumn(name = "username") // username 이라는 외래키 컬럼으로 매핑됨
+    private User user; // FK (작성자)
+
 
     @Generated(GenerationTime.INSERT)
     @Temporal(TemporalType.TIMESTAMP)

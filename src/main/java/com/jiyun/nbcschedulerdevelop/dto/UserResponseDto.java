@@ -15,4 +15,5 @@ public class UserResponseDto {
         this.name = user.getName();
         this.email = user.getEmail();
     }
+
 }

@@ -3,7 +3,10 @@ package com.jiyun.nbcschedulerdevelop.entity;
 import com.jiyun.nbcschedulerdevelop.config.PasswordEncoder;
 import com.jiyun.nbcschedulerdevelop.dto.UserCreateDto;
 import com.jiyun.nbcschedulerdevelop.dto.UserUpdateDto;
-import jakarta.persistence.*;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
@@ -32,8 +35,12 @@ public class User {
     @Size(min = 8, max = 60) // Bcrypt 암호화 사용
     private String password;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    // 연관 관계의 주인은 Schedule
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL) // Schedule 엔터티의 user 필드를 통해 관계를 설정함
     private List<Schedule> schedules = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL) // Reply 엔터티의 user 필드를 통해 관계를 설정함
+    private List<Reply> replies = new ArrayList<>();
 
     public User(UserCreateDto createDto) {
         this.username = createDto.getUsername();
