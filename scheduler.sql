@@ -24,6 +24,17 @@ CREATE TABLE schedule (
     updated_at TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '수정 날짜/시간'
 );
 
+CREATE TABLE reply (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY COMMENT '댓글 ID',
+    content TEXT COMMENT '내용',
+    username VARCHAR(20) COMMENT '작성자',
+    FOREIGN KEY (username) REFERENCES user(username),
+    schedule BIGINT COMMENT '스케줄 ID',
+    FOREIGN KEY (schedule) REFERENCES schedule(id),
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '생성 날짜/시간',
+    updated_at TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '수정 날짜/시간'
+);
+
 -- 테이블 삭제
 DROP TABLE schedule;
 
